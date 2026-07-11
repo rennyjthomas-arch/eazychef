@@ -114,10 +114,11 @@ export default async (req: Request) => {
 
   try {
     const response = await client.messages.create({
-      model: 'claude-opus-4-8',
+      model: 'claude-sonnet-5',
       max_tokens: 4000,
+      thinking: { type: 'disabled' },
       output_config: {
-        effort: 'medium',
+        effort: 'low',
         format: { type: 'json_schema', schema: RECIPE_SCHEMA },
       },
       system:

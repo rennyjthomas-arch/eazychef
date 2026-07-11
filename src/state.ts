@@ -194,7 +194,7 @@ export function useEazychefState() {
           weekdayTime: state.weekdayTime,
           weekendTime: state.weekendTime,
           pantryItems: state.pantryItems,
-          count: 6,
+          count: 4,
           excludeNames,
         }),
       });
