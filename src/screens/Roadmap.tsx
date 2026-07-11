@@ -55,21 +55,58 @@ export function Roadmap({ actions }: RoadmapProps) {
       </div>
 
       <div style={{ flex: 1 }} />
-      <div
-        onClick={actions.restart}
-        style={{
-          cursor: 'pointer',
-          textAlign: 'center',
-          background: inkAlpha(0.06),
-          color: colors.ink,
-          fontFamily: fonts.display,
-          fontWeight: 600,
-          fontSize: 14,
-          padding: 14,
-          borderRadius: 999,
-        }}
-      >
-        Back to start
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div
+          onClick={() => actions.jump('cards')}
+          style={{
+            cursor: 'pointer',
+            textAlign: 'center',
+            background: colors.ink,
+            color: '#FFF8ED',
+            fontFamily: fonts.display,
+            fontWeight: 600,
+            fontSize: 14,
+            padding: 14,
+            borderRadius: 999,
+          }}
+        >
+          See your recipes
+        </div>
+        <div
+          onClick={() => actions.jump('profile')}
+          style={{
+            cursor: 'pointer',
+            textAlign: 'center',
+            background: inkAlpha(0.06),
+            color: colors.ink,
+            fontFamily: fonts.display,
+            fontWeight: 600,
+            fontSize: 14,
+            padding: 14,
+            borderRadius: 999,
+          }}
+        >
+          Update your info
+        </div>
+        <div
+          onClick={() => {
+            if (confirm('This clears all your data and starts onboarding over. Continue?')) {
+              actions.restart();
+            }
+          }}
+          style={{
+            cursor: 'pointer',
+            textAlign: 'center',
+            color: inkAlpha(0.5),
+            fontFamily: fonts.body,
+            fontWeight: 600,
+            fontSize: 12.5,
+            padding: 8,
+          }}
+        >
+          Start over (erases all your data)
+        </div>
       </div>
     </div>
   );
