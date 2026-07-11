@@ -1,3 +1,5 @@
+import type { Recipe } from './data';
+
 export type Screen =
   | 'onboarding'
   | 'pantry'
@@ -29,6 +31,8 @@ export interface AppState {
   selectedCardId: string | null;
   rating: number;
   ratingNote: string;
-  cardIds: string[];
+  recipes: Recipe[];
+  recipesLoading: boolean;
+  recipesError: string | null;
   regenCount: number;
 }

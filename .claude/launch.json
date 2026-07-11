@@ -14,6 +14,12 @@
       "runtimeArgs": ["run", "preview"],
       "port": 4173,
       "autoPort": true
+    },
+    {
+      "name": "eazychef-netlify-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["netlify", "dev", "--port", "8888", "--no-open"],
+      "port": 8888
     }
   ]
 }

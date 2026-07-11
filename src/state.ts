@@ -1,6 +1,27 @@
 import { useEffect, useMemo, useState } from 'react';
-import { CARDS, DEFAULT_CARD_IDS } from './data';
+import { FALLBACK_RECIPE, STRIPE_PALETTE, type AIRecipe, type Recipe } from './data';
 import type { AppState, Screen } from './types';
+
+function ingredientMatchesPantry(ingredient: string, pantryItems: string[]) {
+  const norm = ingredient.trim().toLowerCase();
+  return pantryItems.some((p) => {
+    const pn = p.trim().toLowerCase();
+    return pn === norm || norm.includes(pn) || pn.includes(norm);
+  });
+}
+
+function toDisplayRecipe(ai: AIRecipe, index: number, pantryItems: string[]): Recipe {
+  return {
+    id: ai.id,
+    name: ai.name,
+    prep: ai.prep,
+    reason: ai.reason,
+    stripeBg: STRIPE_PALETTE[index % STRIPE_PALETTE.length],
+    photoLabel: ai.name.toLowerCase(),
+    missing: ai.ingredients.filter((ing) => !ingredientMatchesPantry(ing, pantryItems)),
+    steps: ai.steps.map((text, i) => ({ n: i + 1, text })),
+  };
+}
 
 const STORAGE_KEY = 'eazychef-app-state-v1';
 
@@ -25,7 +46,9 @@ function createDefaultState(): AppState {
     selectedCardId: null,
     rating: 0,
     ratingNote: '',
-    cardIds: [...DEFAULT_CARD_IDS],
+    recipes: [],
+    recipesLoading: false,
+    recipesError: null,
     regenCount: 0,
   };
 }
@@ -36,7 +59,7 @@ function loadInitialState(): AppState {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return fallback;
     const parsed = JSON.parse(raw);
-    return { ...fallback, ...parsed };
+    return { ...fallback, ...parsed, recipesLoading: false, recipesError: null };
   } catch {
     return fallback;
   }
@@ -154,7 +177,49 @@ export function useEazychefState() {
   const addQuickPantry = (label: string) =>
     setState((s) => (s.pantryItems.includes(label) ? s : { ...s, pantryItems: [...s.pantryItems, label] }));
 
-  const goCards = () => setState((s) => ({ ...s, screen: 'cards' }));
+  const fetchRecipes = async (isRegenerate: boolean) => {
+    const excludeNames = isRegenerate ? state.recipes.map((r) => r.name) : [];
+    setState((s) => ({ ...s, recipesLoading: true, recipesError: null }));
+    try {
+      const res = await fetch('/.netlify/functions/generate-recipes', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          diet: state.diet,
+          allergies: [...state.allergies.filter((a) => a !== 'None of these'), ...state.customAllergies],
+          dishes: state.dishes,
+          goal: state.goal,
+          cookSkill: state.cookSkill,
+          weekdayTime: state.weekdayTime,
+          weekendTime: state.weekendTime,
+          pantryItems: state.pantryItems,
+          count: 6,
+          excludeNames,
+        }),
+      });
+      if (!res.ok) throw new Error(`Request failed with ${res.status}`);
+      const data = await res.json();
+      const aiRecipes: AIRecipe[] = Array.isArray(data.recipes) ? data.recipes : [];
+      if (!aiRecipes.length) throw new Error('No recipes returned');
+      setState((s) => ({
+        ...s,
+        recipes: aiRecipes.map((r, i) => toDisplayRecipe(r, i, s.pantryItems)),
+        recipesLoading: false,
+        regenCount: isRegenerate ? s.regenCount + 1 : s.regenCount,
+      }));
+    } catch {
+      setState((s) => ({
+        ...s,
+        recipesLoading: false,
+        recipesError: "Couldn't reach the recipe assistant — try again.",
+      }));
+    }
+  };
+
+  const goCards = () => {
+    setState((s) => ({ ...s, screen: 'cards' }));
+    fetchRecipes(false);
+  };
   const selectCard = (id: string) => setState((s) => ({ ...s, selectedCardId: id, screen: 'missing' }));
   const backToCards = () => setState((s) => ({ ...s, screen: 'cards' }));
   const goDetail = () => setState((s) => ({ ...s, screen: 'detail' }));
@@ -170,27 +235,16 @@ export function useEazychefState() {
   const restart = () =>
     setState((s) => ({
       ...createDefaultState(),
-      cardIds: s.cardIds,
       regenCount: s.regenCount,
     }));
 
   const regenerate = () => {
-    setState((s) => {
-      const pool = CARDS;
-      const current = s.cardIds;
-      const shuffled = [...pool].sort(() => Math.random() - 0.5);
-      let picks = shuffled.slice(0, 3).map((c) => c.id);
-      if (picks.every((id) => current.includes(id)) && pool.length > 3) {
-        picks = shuffled.slice(3, 6).map((c) => c.id);
-        if (picks.length < 3) picks = shuffled.slice(0, 3).map((c) => c.id);
-      }
-      return { ...s, cardIds: picks, regenCount: s.regenCount + 1 };
-    });
+    fetchRecipes(true);
   };
 
   const selectedCard = useMemo(
-    () => CARDS.find((c) => c.id === state.selectedCardId) ?? CARDS[0],
-    [state.selectedCardId],
+    () => state.recipes.find((c) => c.id === state.selectedCardId) ?? FALLBACK_RECIPE,
+    [state.recipes, state.selectedCardId],
   );
 
   return {
@@ -231,6 +285,7 @@ export function useEazychefState() {
       jump,
       restart,
       regenerate,
+      fetchRecipes,
     },
   };
 }

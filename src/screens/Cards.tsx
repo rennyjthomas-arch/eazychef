@@ -1,4 +1,4 @@
-import { CARDS, CARDS_INTRO_LINES } from '../data';
+import { CARDS_INTRO_LINES } from '../data';
 import type { EazychefActions } from '../state';
 import type { AppState } from '../types';
 import { colors, fonts, inkAlpha, turmericAlpha } from '../theme';
@@ -9,19 +9,20 @@ interface CardsProps {
 }
 
 export function Cards({ state, actions }: CardsProps) {
-  const cards = state.cardIds.map((id) => CARDS.find((c) => c.id === id)).filter((c): c is NonNullable<typeof c> => !!c);
+  const cards = state.recipes;
   const intro = CARDS_INTRO_LINES[Math.min(state.regenCount, CARDS_INTRO_LINES.length - 1)];
 
   return (
     <div style={{ padding: '28px 0 32px', display: 'flex', flexDirection: 'column', gap: 18, minHeight: '100%' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
         <div style={{ fontFamily: fonts.display, fontWeight: 500, fontSize: 15, color: inkAlpha(0.75), lineHeight: 1.4 }}>
-          {intro}
+          {state.recipesLoading ? "Cooking up some ideas for you…" : intro}
         </div>
         <div
           onClick={actions.regenerate}
           style={{
-            cursor: 'pointer',
+            cursor: state.recipesLoading ? 'default' : 'pointer',
+            opacity: state.recipesLoading ? 0.5 : 1,
             flexShrink: 0,
             display: 'flex',
             alignItems: 'center',
@@ -40,7 +41,45 @@ export function Cards({ state, actions }: CardsProps) {
         </div>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {state.recipesError && (
+        <div
+          style={{
+            background: '#FDECE7',
+            border: `1px solid ${inkAlpha(0.12)}`,
+            borderRadius: 16,
+            padding: 16,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 10,
+          }}
+        >
+          <div style={{ fontSize: 13.5, color: colors.ink }}>{state.recipesError}</div>
+          <div
+            onClick={() => actions.fetchRecipes(false)}
+            style={{
+              cursor: 'pointer',
+              alignSelf: 'flex-start',
+              background: colors.ink,
+              color: '#FFF8ED',
+              fontFamily: fonts.display,
+              fontWeight: 600,
+              fontSize: 13,
+              padding: '8px 16px',
+              borderRadius: 999,
+            }}
+          >
+            Try again
+          </div>
+        </div>
+      )}
+
+      {state.recipesLoading && cards.length === 0 && (
+        <div style={{ fontSize: 13.5, color: inkAlpha(0.5), padding: '24px 0', textAlign: 'center' }}>
+          Thinking about what fits your kitchen…
+        </div>
+      )}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, opacity: state.recipesLoading ? 0.5 : 1 }}>
         {cards.map((card) => (
           <div
             key={card.id}
