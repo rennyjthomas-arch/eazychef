@@ -160,15 +160,21 @@ export function Onboarding({ state, actions }: OnboardingProps) {
           {obStep === 4 && (
             <>
               <BotBubble>Who's doing the actual cooking, and how comfortable are they?</BotBubble>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingLeft: 44 }}>
-                {cookWhoNames.map((l) => (
-                  <OptionChip key={l} label={l} selected={state.cookWho === l} onClick={() => actions.setCookWho(l)} />
-                ))}
+              <div style={{ paddingLeft: 44, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <div style={sectionLabelStyle}>Who cooks</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {cookWhoNames.map((l) => (
+                    <OptionChip key={l} label={l} selected={state.cookWho === l} onClick={() => actions.setCookWho(l)} />
+                  ))}
+                </div>
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingLeft: 44 }}>
-                {COOK_SKILL.map((l) => (
-                  <OptionChip key={l} label={l} selected={state.cookSkill === l} onClick={() => actions.setCookSkill(l)} />
-                ))}
+              <div style={{ paddingLeft: 44, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <div style={sectionLabelStyle}>How comfortable are they</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {COOK_SKILL.map((l) => (
+                    <OptionChip key={l} label={l} selected={state.cookSkill === l} onClick={() => actions.setCookSkill(l)} />
+                  ))}
+                </div>
               </div>
               {!!state.cookWho && !!state.cookSkill && (
                 <div style={{ paddingLeft: 44 }}>
