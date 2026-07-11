@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #F0E9DC; }
+    * { box-sizing: border-box; }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</helmet>
+
+<div style="min-height:100vh; background:#F0E9DC; padding:48px 24px 80px; display:flex; flex-direction:column; align-items:center; gap:40px; font-family:'Inter',sans-serif;">
+
+  <!-- ============ DESIGN SYSTEM LEGEND ============ -->
+  <div style="width:100%; max-width:920px; background:#FFFDF8; border:1px solid rgba(43,27,18,0.08); border-radius:24px; padding:32px 36px; display:flex; flex-direction:column; gap:24px;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <svg width="40" height="40" viewBox="0 0 80 56" style="flex-shrink:0;">
+        <rect x="18" y="6" width="44" height="44" rx="16" fill="#E7A93B"/>
+        <circle cx="32" cy="26" r="2.5" fill="#2B1B12"/>
+        <circle cx="48" cy="26" r="2.5" fill="#2B1B12"/>
+        <path d="M30 36 Q40 42 50 36" stroke="#2B1B12" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:22px; color:#2B1B12;">Eazychef</div>
+        <div style="font-size:12px; color:rgba(43,27,18,0.55); letter-spacing:0.02em;">design system + interactive prototype</div>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:32px;">
+      <!-- palette -->
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:rgba(43,27,18,0.45);">Palette</div>
+        <div style="display:flex; gap:10px;">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;"><div style="width:32px;height:32px;border-radius:10px;background:#FAF3E7;border:1px solid rgba(43,27,18,0.1);"></div><span style="font-size:9px;color:rgba(43,27,18,0.5);">cream</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;"><div style="width:32px;height:32px;border-radius:10px;background:#C1592F;"></div><span style="font-size:9px;color:rgba(43,27,18,0.5);">terracotta</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;"><div style="width:32px;height:32px;border-radius:10px;background:#E7A93B;"></div><span style="font-size:9px;color:rgba(43,27,18,0.5);">turmeric</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;"><div style="width:32px;height:32px;border-radius:10px;background:#8FA05E;"></div><span style="font-size:9px;color:rgba(43,27,18,0.5);">sage</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;"><div style="width:32px;height:32px;border-radius:10px;background:#2B1B12;"></div><span style="font-size:9px;color:rgba(43,27,18,0.5);">ink</span></div>
+        </div>
+      </div>
+      <!-- type -->
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:rgba(43,27,18,0.45);">Type</div>
+        <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:18px; color:#2B1B12;">Fredoka — voice &amp; titles</div>
+        <div style="font-family:'Inter',sans-serif; font-weight:500; font-size:14px; color:#2B1B12;">Inter — data, UI, body</div>
+      </div>
+      <!-- components -->
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:rgba(43,27,18,0.45);">Components</div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <div style="background:#C1592F; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:13px; padding:9px 18px; border-radius:999px;">Button</div>
+          <div style="background:#FFFDF8; border:1px solid rgba(43,27,18,0.14); font-family:'Inter',sans-serif; font-weight:600; font-size:12px; padding:8px 14px; border-radius:999px; color:#2B1B12;">Chip</div>
+          <div style="background:rgba(231,169,59,0.22); font-family:'Inter',sans-serif; font-weight:600; font-size:11px; padding:5px 10px; border-radius:999px; color:#8A5A16;">18 min</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ RESPONSIVE WEB APP CANVAS ============ -->
+  <div style="width:100%; max-width:1180px; filter:drop-shadow(0 24px 50px rgba(43,27,18,0.16));">
+    <x-import component-from-global-scope="ChromeWindow" from="./browser-window.jsx" url="eazychef.app/today" width="1180" height="760" hint-size="1180,760">
+      <div style="height:100%; display:flex; flex-direction:column; background:#FAF3E7; font-family:'Inter',sans-serif;">
+
+        <!-- app header / tab navigation -->
+        <div style="flex-shrink:0; display:flex; align-items:center; gap:8px; padding:14px 28px; background:#FFFDF8; border-bottom:1px solid rgba(43,27,18,0.08);">
+          <div style="display:flex; align-items:center; gap:9px; margin-right:22px;">
+            <svg width="26" height="26" viewBox="0 0 80 56" style="flex-shrink:0;"><rect x="18" y="6" width="44" height="44" rx="16" fill="#E7A93B"/><circle cx="32" cy="26" r="2.5" fill="#2B1B12"/><circle cx="48" cy="26" r="2.5" fill="#2B1B12"/><path d="M30 36 Q40 42 50 36" stroke="#2B1B12" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+            <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:16px; color:#2B1B12;">Eazychef</div>
+          </div>
+          <div style="display:flex; gap:2px; overflow-x:auto;">
+            <sc-for list="{{navSteps}}" as="s" hint-placeholder-count="8">
+              <div onClick="{{s.onClick}}" style="cursor:pointer; padding:8px 13px; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; color:{{s.color}}; border-bottom:2px solid {{s.underline}}; white-space:nowrap;">{{s.label}}</div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- scrollable content, mobile-first centered column -->
+        <div style="flex:1; overflow-y:auto; display:flex; justify-content:center;">
+        <div style="width:100%; max-width:480px; padding:0 16px;">
+
+          <!-- ================= 1. ONBOARDING ================= -->
+          <sc-if value="{{isOnboarding}}" hint-placeholder-val="{{true}}">
+            <div style="padding:28px 0 24px; display:flex; flex-direction:column; gap:18px; min-height:100%;">
+              <div style="display:flex; align-items:center; justify-content:center; position:relative;">
+                <div style="display:flex; gap:6px; justify-content:center;">
+                  <sc-for list="{{progressDots}}" as="dot" hint-placeholder-count="6">
+                    <div style="width:{{dot.w}}px; height:6px; border-radius:3px; background:{{dot.color}};"></div>
+                  </sc-for>
+                </div>
+                <div onClick="{{finishOnboarding}}" style="cursor:pointer; position:absolute; right:0; font-size:12px; font-weight:600; color:rgba(43,27,18,0.4);">Skip to pantry →</div>
+              </div>
+
+              <!-- step 0: diet -->
+              <sc-if value="{{step0Visible}}" hint-placeholder-val="{{true}}">
+                <sc-if value="{{step0Answered}}" hint-placeholder-val="{{false}}">
+                  <div style="align-self:flex-end; background:#C1592F; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; padding:10px 16px; border-radius:16px 16px 4px 16px; max-width:78%;">{{step0Summary}}</div>
+                </sc-if>
+                <sc-if value="{{step0Active}}" hint-placeholder-val="{{true}}">
+                  <div style="display:flex; gap:10px; align-items:flex-start;">
+                    <svg width="34" height="34" viewBox="0 0 80 56" style="flex-shrink:0; margin-top:2px;"><rect x="18" y="6" width="44" height="44" rx="16" fill="#E7A93B"/><circle cx="32" cy="26" r="2.5" fill="#2B1B12"/><circle cx="48" cy="26" r="2.5" fill="#2B1B12"/><path d="M30 36 Q40 42 50 36" stroke="#2B1B12" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+                    <div style="background:#FFFDF8; border:1px solid rgba(43,27,18,0.08); border-radius:4px 16px 16px 16px; padding:12px 16px; font-family:'Fredoka',sans-serif; font-weight:500; font-size:15px; color:#2B1B12; max-width:82%;">So, how do you usually eat?</div>
+                  </div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; padding-left:44px;">
+                    <sc-for list="{{dietOptions}}" as="opt" hint-placeholder-count="4">
+                      <div onClick="{{opt.onClick}}" style="cursor:pointer; padding:9px 16px; border-radius:999px; font-size:13px; font-weight:600; border:1.5px solid {{opt.borderColor}}; background:{{opt.bg}}; color:{{opt.color}};">{{opt.label}}</div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </sc-if>
+
+              <!-- step 1: allergies -->
+              <sc-if value="{{step1Visible}}" hint-placeholder-val="{{false}}">
+                <sc-if value="{{step1Answered}}" hint-placeholder-val="{{false}}">
+                  <div style="align-self:flex-end; background:#C1592F; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; padding:10px 16px; border-radius:16px 16px 4px 16px; max-width:78%;">{{step1Summary}}</div>
+                </sc-if>
+                <sc-if value="{{step1Active}}" hint-placeholder-val="{{false}}">
+                  <div style="display:flex; gap:10px; align-items:flex-start;">
+                    <svg width="34" height="34" viewBox="0 0 80 56" style="flex-shrink:0; margin-top:2px;"><rect x="18" y="6" width="44" height="44" rx="16" fill="#E7A93B"/><circle cx="32" cy="26" r="2.5" fill="#2B1B12"/><circle cx="48" cy="26" r="2.5" fill="#2B1B12"/><path d="M30 36 Q40 42 50 36" stroke="#2B1B12" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+                    <div style="background:#FFFDF8; border:1px solid rgba(43,27,18,0.08); border-radius:4px 16px 16px 16px; padding:12px 16px; font-family:'Fredoka',sans-serif; font-weight:500; font-size:15px; color:#2B1B12; max-width:82%;">Anything you just don't touch? Allergies, dislikes, whatever.</div>
+                  </div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; padding-left:44px;">
+                    <sc-for list="{{allergyOptions}}" as="opt" hint-placeholder-count="5">
+                      <div onClick="{{opt.onClick}}" style="cursor:pointer; padding:9px 16px; border-radius:999px; font-size:13px; font-weight:600; border:1.5px solid {{opt.borderColor}}; background:{{opt.bg}}; color:{{opt.color}};">{{opt.label}}</div>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; padding-left:44px;">
+                    <sc-for list="{{customAllergyChips}}" as="c" hint-placeholder-count="0">
+                      <div style="padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600; background:rgba(193,89,47,0.1); color:#C1592F; display:flex; align-items:center; gap:6px;">{{c.label}}<span onClick="{{c.onRemove}}" style="cursor:pointer; opacity:0.6;">×</span></div>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex; gap:8px; padding-left:44px;">
+                    <input value="{{allergyInput}}" onChange="{{onAllergyInput}}" placeholder="something else? type it here" style="flex:1; border:1.5px solid rgba(43,27,18,0.14); background:#FFFDF8; border-radius:999px; padding:10px 16px; font-size:14px; font-family:'Inter',sans-serif; color:#2B1B12; outline:none;"/>
+                    <div onClick="{{addCustomAllergy}}" style="cursor:pointer; background:#2B1B12; color:#FFF8ED; width:38px; height:38px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;">+</div>
+                  </div>
+                  <sc-if value="{{step1Ready}}" hint-placeholder-val="{{false}}">
+                    <div style="padding-left:44px;"><div onClick="{{nextStep}}" style="cursor:pointer; display:inline-block; background:#2B1B12; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:13px; padding:9px 20px; border-radius:999px;">Continue</div></div>
+                  </sc-if>
+                </sc-if>
+              </sc-if>
+
+              <!-- step 2: favorite dishes -->
+              <sc-if value="{{step2Visible}}" hint-placeholder-val="{{false}}">
+                <sc-if value="{{step2Answered}}" hint-placeholder-val="{{false}}">
+                  <div style="align-self:flex-end; background:#C1592F; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; padding:10px 16px; border-radius:16px 16px 4px 16px; max-width:78%;">{{step2Summary}}</div>
+                </sc-if>
+                <sc-if value="{{step2Active}}" hint-placeholder-val="{{false}}">
+                  <div style="display:flex; gap:10px; align-items:flex-start;">
+                    <svg width="34" height="34" viewBox="0 0 80 56" style="flex-shrink:0; margin-top:2px;"><rect x="18" y="6" width="44" height="44" rx="16" fill="#E7A93B"/><circle cx="32" cy="26" r="2.5" fill="#2B1B12"/><circle cx="48" cy="26" r="2.5" fill="#2B1B12"/><path d="M30 36 Q40 42 50 36" stroke="#2B1B12" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+                    <div style="background:#FFFDF8; border:1px solid rgba(43,27,18,0.08); border-radius:4px 16px 16px 16px; padding:12px 16px; font-family:'Fredoka',sans-serif; font-weight:500; font-size:15px; color:#2B1B12; max-width:82%;">Give me 2-3 dishes you always enjoy.</div>
+                  </div>
+                  <div style="padding-left:44px; display:flex; flex-direction:column; gap:8px;">
+                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                      <sc-for list="{{dishChips}}" as="d" hint-placeholder-count="0">
+                        <div style="padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600; background:rgba(193,89,47,0.1); color:#C1592F; display:flex; align-items:center; gap:6px;">{{d.label}}<span onClick="{{d.onRemove}}" style="cursor:pointer; opacity:0.6;">×</span></div>
+                      </sc-for>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                      <input value="{{dishInput}}" onChange="{{onDishInput}}" placeholder="e.g. rajma chawal" style="flex:1; border:1.5px solid rgba(43,27,18,0.14); background:#FFFDF8; border-radius:999px; padding:10px 16px; font-size:14px; font-family:'Inter',sans-serif; color:#2B1B12; outline:none;"/>
+                      <div onClick="{{addDish}}" style="cursor:pointer; background:#2B1B12; color:#FFF8ED; width:38px; height:38px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;">+</div>
+                    </div>
+                  </div>
+                  <sc-if value="{{step2Ready}}" hint-placeholder-val="{{false}}">
+                    <div style="padding-left:44px;"><div onClick="{{nextStep}}" style="cursor:pointer; display:inline-block; background:#2B1B12; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:13px; padding:9px 20px; border-radius:999px;">Continue</div></div>
+                  </sc-if>
+                </sc-if>
+              </sc-if>
+
+              <!-- step 3: goal -->
+              <sc-if value="{{step3Visible}}" hint-placeholder-val="{{false}}">
+                <sc-if value="{{step3Answered}}" hint-placeholder-val="{{false}}">
+                  <div style="align-self:flex-end; background:#C1592F; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; padding:10px 16px; border-radius:16px 16px 4px 16px; max-width:78%;">{{step3Summary}}</div>
+                </sc-if>
+                <sc-if value="{{step3Active}}" hint-placeholder-val="{{false}}">
+                  <div style="display:flex; gap:10px; align-items:flex-start;">
+                    <svg width="34" height="34" viewBox="0 0 80 56" style="flex-shrink:0; margin-top:2px;"><rect x="18" y="6" width="44" height="44" rx="16" fill="#E7A93B"/><circle cx="32" cy="26" r="2.5" fill="#2B1B12"/><circle cx="48" cy="26" r="2.5" fill="#2B1B12"/><path d="M30 36 Q40 42 50 36" stroke="#2B1B12" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+                    <div style="background:#FFFDF8; border:1px solid rgba(43,27,18,0.08); border-radius:4px 16px 16px 16px; padding:12px 16px; font-family:'Fredoka',sans-serif; font-weight:500; font-size:15px; color:#2B1B12; max-width:82%;">What's the goal right now?</div>
+                  </div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; padding-left:44px;">
+                    <sc-for list="{{goalOptions}}" as="opt" hint-placeholder-count="4">
+                      <div onClick="{{opt.onClick}}" style="cursor:pointer; padding:9px 16px; border-radius:999px; font-size:13px; font-weight:600; border:1.5px solid {{opt.borderColor}}; background:{{opt.bg}}; color:{{opt.color}};">{{opt.label}}</div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </sc-if>
+
+              <!-- step 4: cook + skill -->
+              <sc-if value="{{step4Visible}}" hint-placeholder-val="{{false}}">
+                <sc-if value="{{step4Answered}}" hint-placeholder-val="{{false}}">
+                  <div style="align-self:flex-end; background:#C1592F; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; padding:10px 16px; border-radius:16px 16px 4px 16px; max-width:78%;">{{step4Summary}}</div>
+                </sc-if>
+                <sc-if value="{{step4Active}}" hint-placeholder-val="{{false}}">
+                  <div style="display:flex; gap:10px; align-items:flex-start;">
+                    <svg width="34" height="34" viewBox="0 0 80 56" style="flex-shrink:0; margin-top:2px;"><rect x="18" y="6" width="44" height="44" rx="16" fill="#E7A93B"/><circle cx="32" cy="26" r="2.5" fill="#2B1B12"/><circle cx="48" cy="26" r="2.5" fill="#2B1B12"/><path d="M30 36 Q40 42 50 36" stroke="#2B1B12" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+                    <div style="background:#FFFDF8; border:1px solid rgba(43,27,18,0.08); border-radius:4px 16px 16px 16px; padding:12px 16px; font-family:'Fredoka',sans-serif; font-weight:500; font-size:15px; color:#2B1B12; max-width:82%;">Who's doing the actual cooking, and how comfortable are they?</div>
+                  </div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; padding-left:44px;">
+                    <sc-for list="{{cookWhoOptions}}" as="opt" hint-placeholder-count="3">
+                      <div onClick="{{opt.onClick}}" style="cursor:pointer; padding:9px 16px; border-radius:999px; font-size:13px; font-weight:600; border:1.5px solid {{opt.borderColor}}; background:{{opt.bg}}; color:{{opt.color}};">{{opt.label}}</div>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; padding-left:44px;">
+                    <sc-for list="{{cookSkillOptions}}" as="opt" hint-placeholder-count="3">
+                      <div onClick="{{opt.onClick}}" style="cursor:pointer; padding:9px 16px; border-radius:999px; font-size:13px; font-weight:600; border:1.5px solid {{opt.borderColor}}; background:{{opt.bg}}; color:{{opt.color}};">{{opt.label}}</div>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{step4Ready}}" hint-placeholder-val="{{false}}">
+                    <div style="padding-left:44px;"><div onClick="{{nextStep}}" style="cursor:pointer; display:inline-block; background:#2B1B12; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:13px; padding:9px 20px; border-radius:999px;">Continue</div></div>
+                  </sc-if>
+                </sc-if>
+              </sc-if>
+
+              <!-- step 5: time available -->
+              <sc-if value="{{step5Visible}}" hint-placeholder-val="{{false}}">
+                <div style="display:flex; gap:10px; align-items:flex-start;">
+                  <svg width="34" height="34" viewBox="0 0 80 56" style="flex-shrink:0; margin-top:2px;"><rect x="18" y="6" width="44" height="44" rx="16" fill="#E7A93B"/><circle cx="32" cy="26" r="2.5" fill="#2B1B12"/><circle cx="48" cy="26" r="2.5" fill="#2B1B12"/><path d="M30 36 Q40 42 50 36" stroke="#2B1B12" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+                  <div style="background:#FFFDF8; border:1px solid rgba(43,27,18,0.08); border-radius:4px 16px 16px 16px; padding:12px 16px; font-family:'Fredoka',sans-serif; font-weight:500; font-size:15px; color:#2B1B12; max-width:82%;">Last one — how much time do you realistically have to cook?</div>
+                </div>
+                <div style="padding-left:44px; display:flex; flex-direction:column; gap:6px;">
+                  <div style="font-size:11px; font-weight:600; color:rgba(43,27,18,0.45); text-transform:uppercase; letter-spacing:0.06em;">Weekdays</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                    <sc-for list="{{weekdayOptions}}" as="opt" hint-placeholder-count="3">
+                      <div onClick="{{opt.onClick}}" style="cursor:pointer; padding:9px 16px; border-radius:999px; font-size:13px; font-weight:600; border:1.5px solid {{opt.borderColor}}; background:{{opt.bg}}; color:{{opt.color}};">{{opt.label}}</div>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="padding-left:44px; display:flex; flex-direction:column; gap:6px;">
+                  <div style="font-size:11px; font-weight:600; color:rgba(43,27,18,0.45); text-transform:uppercase; letter-spacing:0.06em;">Weekends</div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                    <sc-for list="{{weekendOptions}}" as="opt" hint-placeholder-count="3">
+                      <div onClick="{{opt.onClick}}" style="cursor:pointer; padding:9px 16px; border-radius:999px; font-size:13px; font-weight:600; border:1.5px solid {{opt.borderColor}}; background:{{opt.bg}}; color:{{opt.color}};">{{opt.label}}</div>
+                    </sc-for>
+                  </div>
+                </div>
+                <sc-if value="{{step5Ready}}" hint-placeholder-val="{{false}}">
+                  <div style="padding-left:44px;"><div onClick="{{finishOnboarding}}" style="cursor:pointer; display:inline-block; background:#C1592F; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:13px; padding:10px 22px; border-radius:999px;">Alright, let's cook</div></div>
+                </sc-if>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- ================= 2. PANTRY ================= -->
+          <sc-if value="{{isPantry}}" hint-placeholder-val="{{false}}">
+            <div style="padding:28px 0 24px; display:flex; flex-direction:column; gap:20px; min-height:100%;">
+              <div style="display:flex; gap:10px; align-items:center;">
+                <svg width="34" height="34" viewBox="0 0 80 56" style="flex-shrink:0;"><rect x="18" y="6" width="44" height="44" rx="16" fill="#E7A93B"/><circle cx="32" cy="26" r="2.5" fill="#2B1B12"/><circle cx="48" cy="26" r="2.5" fill="#2B1B12"/><path d="M30 36 Q40 42 50 36" stroke="#2B1B12" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+                <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:19px; color:#2B1B12;">So, what's in the kitchen today?</div>
+              </div>
+              <div style="display:flex; gap:10px; align-items:flex-start;">
+                <textarea value="{{pantryText}}" onChange="{{onPantryInput}}" onKeyDown="{{onPantryKeyDown}}" placeholder="e.g. onion, tomato, paneer, curd, leftover dal" style="flex:1; min-height:64px; resize:none; border:2px solid rgba(193,89,47,0.18); background:#FFFDF8; border-radius:24px; padding:16px 20px; font-family:'Inter',sans-serif; font-size:16px; color:#2B1B12; outline:none; box-shadow:0 8px 24px rgba(43,27,18,0.06);"></textarea>
+                <div onClick="{{addPantryItem}}" style="cursor:pointer; flex-shrink:0; width:56px; height:56px; border-radius:999px; background:#C1592F; color:#FFF8ED; display:flex; align-items:center; justify-content:center; font-size:26px; box-shadow:0 8px 20px rgba(193,89,47,0.3);">+</div>
+              </div>
+              <div style="font-size:11.5px; color:rgba(43,27,18,0.4); margin-top:-10px;">Tip: separate items with a comma — enter to add the whole list at once.</div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <sc-for list="{{pantryQuickAdds}}" as="q" hint-placeholder-count="5">
+                  <div onClick="{{q.onClick}}" style="cursor:pointer; padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600; background:rgba(43,27,18,0.05); color:#2B1B12; border:1px solid rgba(43,27,18,0.1);">+ {{q.label}}</div>
+                </sc-for>
+              </div>
+              <sc-if value="{{hasPantryItems}}" hint-placeholder-val="{{false}}">
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <div style="font-size:11px; font-weight:600; color:rgba(43,27,18,0.45); text-transform:uppercase; letter-spacing:0.06em;">In your pantry</div>
+                  <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <sc-for list="{{pantryChips}}" as="p" hint-placeholder-count="0">
+                      <div style="padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600; background:rgba(193,89,47,0.1); color:#C1592F; display:flex; align-items:center; gap:6px;">{{p.label}}<span onClick="{{p.onRemove}}" style="cursor:pointer; opacity:0.6;">×</span></div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+              <div style="flex:1;"></div>
+              <div onClick="{{goCards}}" style="cursor:pointer; text-align:center; background:#C1592F; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:16px; padding:16px; border-radius:999px; box-shadow:0 10px 24px rgba(193,89,47,0.32);">Find something to cook</div>
+            </div>
+          </sc-if>
+
+          <!-- ================= 3. RECOMMENDATION CARDS ================= -->
+          <sc-if value="{{isCards}}" hint-placeholder-val="{{false}}">
+            <div style="padding:28px 0 32px; display:flex; flex-direction:column; gap:18px; min-height:100%;">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+                <div style="font-family:'Fredoka',sans-serif; font-weight:500; font-size:15px; color:rgba(43,27,18,0.75); line-height:1.4;">{{cardsIntro}}</div>
+                <div onClick="{{regenerate}}" style="cursor:pointer; flex-shrink:0; display:flex; align-items:center; gap:6px; background:#FFFDF8; border:1px solid rgba(43,27,18,0.12); border-radius:999px; padding:8px 14px; font-size:12.5px; font-weight:600; color:#C1592F; box-shadow:0 4px 12px rgba(43,27,18,0.05);">
+                  <span style="font-size:14px;">↻</span> Regenerate
+                </div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:{{cardGap}}px; margin-top:{{cardStackOffset}}px;">
+                <sc-for list="{{cards}}" as="card" hint-placeholder-count="3">
+                  <div onClick="{{card.onClick}}" style="cursor:pointer; background:#FFFDF8; border:1px solid rgba(43,27,18,0.08); border-radius:26px; overflow:hidden; box-shadow:0 12px 28px rgba(43,27,18,0.08); margin-top:{{card.offset}}px;">
+                    <div style="height:130px; background:{{card.stripeBg}}; display:flex; align-items:center; justify-content:center; position:relative;">
+                      <span style="font-family:monospace; font-size:11px; color:rgba(43,27,18,0.5); background:rgba(255,253,248,0.75); padding:4px 10px; border-radius:6px;">photo: {{card.photoLabel}}</span>
+                    </div>
+                    <div style="padding:16px 18px 18px; display:flex; flex-direction:column; gap:8px;">
+                      <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                        <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:18px; color:#2B1B12;">{{card.name}}</div>
+                        <div style="flex-shrink:0; background:rgba(231,169,59,0.22); color:#8A5A16; font-size:11px; font-weight:700; padding:5px 10px; border-radius:999px; white-space:nowrap;">{{card.prep}}</div>
+                      </div>
+                      <div style="font-size:13.5px; color:rgba(43,27,18,0.68); line-height:1.45;">{{card.reason}}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ================= MISSING INGREDIENTS ================= -->
+          <sc-if value="{{isMissing}}" hint-placeholder-val="{{false}}">
+            <div style="padding:28px 0 24px; display:flex; flex-direction:column; gap:18px; min-height:100%;">
+              <div onClick="{{backToCards}}" style="cursor:pointer; font-size:13px; font-weight:600; color:rgba(43,27,18,0.5);">← Back</div>
+              <div style="display:flex; gap:12px; align-items:center;">
+                <div style="width:56px; height:56px; border-radius:16px; background:{{selectedCard.stripeBg}}; flex-shrink:0;"></div>
+                <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:18px; color:#2B1B12;">{{selectedCard.name}}</div>
+              </div>
+              <sc-if value="{{hasMissing}}" hint-placeholder-val="{{true}}">
+                <div style="background:rgba(193,89,47,0.08); border:1px solid rgba(193,89,47,0.18); border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:12px;">
+                  <div style="font-family:'Fredoka',sans-serif; font-weight:500; font-size:14px; color:#2B1B12;">Quick heads up — a couple of things aren't in your kitchen yet:</div>
+                  <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <sc-for list="{{missingItems}}" as="m" hint-placeholder-count="2">
+                      <div style="padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600; background:#FFFDF8; border:1px solid rgba(193,89,47,0.25); color:#C1592F;">{{m.label}}</div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{noMissing}}" hint-placeholder-val="{{false}}">
+                <div style="background:rgba(143,160,94,0.1); border:1px solid rgba(143,160,94,0.25); border-radius:20px; padding:16px; font-family:'Fredoka',sans-serif; font-weight:500; font-size:14px; color:#4E5E33;">You've got everything for this one already. Nice.</div>
+              </sc-if>
+              <div style="flex:1;"></div>
+              <div onClick="{{goDetail}}" style="cursor:pointer; text-align:center; background:#2B1B12; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px; padding:15px; border-radius:999px;">Let's cook anyway</div>
+            </div>
+          </sc-if>
+
+          <!-- ================= 4. RECIPE DETAIL ================= -->
+          <sc-if value="{{isDetail}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex; flex-direction:column; min-height:100%; padding-top:28px;">
+              <div onClick="{{backToMissing}}" style="cursor:pointer; font-size:13px; font-weight:600; color:rgba(43,27,18,0.5); margin-bottom:12px;">← Back</div>
+              <div style="height:150px; border-radius:20px; background:{{selectedCard.stripeBg}}; margin-bottom:16px;"></div>
+              <div style="padding:0 0 100px; display:flex; flex-direction:column; gap:16px;">
+                <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:24px; color:#2B1B12;">{{selectedCard.name}}</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <div style="background:rgba(231,169,59,0.22); color:#8A5A16; font-size:11px; font-weight:700; padding:6px 12px; border-radius:999px;">{{selectedCard.prep}}</div>
+                  <div style="background:rgba(43,27,18,0.06); color:#2B1B12; font-size:11px; font-weight:700; padding:6px 12px; border-radius:999px;">Written for {{cookNameDisplay}} · {{cookSkillDisplay}}</div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:14px; margin-top:4px;">
+                  <sc-for list="{{selectedCard.steps}}" as="step" hint-placeholder-count="4">
+                    <div style="display:flex; gap:12px; align-items:flex-start;">
+                      <div style="width:26px; height:26px; border-radius:999px; background:#C1592F; color:#FFF8ED; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">{{step.n}}</div>
+                      <div style="font-size:14.5px; color:#2B1B12; line-height:1.5; padding-top:2px;">{{step.text}}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="position:sticky; bottom:0; padding:14px 20px 20px; background:linear-gradient(to top, #FAF3E7 70%, rgba(250,243,231,0)); display:flex; gap:10px;">
+                <div onClick="{{goRating}}" style="cursor:pointer; flex:1; text-align:center; background:#2B1B12; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; padding:14px; border-radius:999px;">I cooked this</div>
+                <div style="cursor:pointer; flex-shrink:0; width:52px; background:#25D366; color:#fff; display:flex; align-items:center; justify-content:center; border-radius:999px;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.82.48 3.53 1.32 5L2 22l5.14-1.28C8.56 21.54 10.24 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="#fff"/><path d="M8.5 8.5c.3-.6.9-.6 1.2 0l.6 1.2c.2.4.1.9-.2 1.2l-.4.4c.5 1 1.4 1.9 2.4 2.4l.4-.4c.3-.3.8-.4 1.2-.2l1.2.6c.6.3.6.9 0 1.2-1.6.9-3.7.3-5.2-1.2S7.6 10.1 8.5 8.5z" fill="#25D366"/></svg>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ================= 5. RATING ================= -->
+          <sc-if value="{{isRating}}" hint-placeholder-val="{{false}}">
+            <div style="padding:28px 0 24px; display:flex; flex-direction:column; gap:22px; min-height:100%;">
+              <div style="display:flex; gap:10px; align-items:center;">
+                <svg width="34" height="34" viewBox="0 0 80 56" style="flex-shrink:0;"><rect x="18" y="6" width="44" height="44" rx="16" fill="#E7A93B"/><circle cx="32" cy="26" r="2.5" fill="#2B1B12"/><circle cx="48" cy="26" r="2.5" fill="#2B1B12"/><path d="M30 36 Q40 42 50 36" stroke="#2B1B12" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+                <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:18px; color:#2B1B12;">So — how'd {{selectedCard.name}} turn out?</div>
+              </div>
+              <div style="display:flex; justify-content:space-between; gap:6px;">
+                <sc-for list="{{ratingOptions}}" as="r" hint-placeholder-count="5">
+                  <div onClick="{{r.onClick}}" style="cursor:pointer; flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 4px; border-radius:16px; background:{{r.bg}}; border:1.5px solid {{r.border}};">
+                    <div style="font-size:26px;">{{r.emoji}}</div>
+                    <div style="font-size:10px; font-weight:600; color:rgba(43,27,18,0.5);">{{r.n}}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <textarea value="{{ratingNote}}" onChange="{{onRatingNote}}" placeholder="anything Radha should know for next time? (optional)" style="width:100%; min-height:90px; resize:none; border:1.5px solid rgba(43,27,18,0.12); background:#FFFDF8; border-radius:18px; padding:16px; font-family:'Inter',sans-serif; font-size:14px; color:#2B1B12; outline:none;"></textarea>
+              <div style="flex:1;"></div>
+              <div onClick="{{submitRating}}" style="cursor:pointer; text-align:center; background:#C1592F; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px; padding:15px; border-radius:999px;">Done</div>
+            </div>
+          </sc-if>
+
+          <!-- ================= 6. TRENDS / IT REMEMBERS ================= -->
+          <sc-if value="{{isTrends}}" hint-placeholder-val="{{false}}">
+            <div style="padding:28px 0 24px; display:flex; flex-direction:column; gap:20px; min-height:100%;">
+              <div style="display:flex; gap:10px; align-items:flex-start;">
+                <svg width="34" height="34" viewBox="0 0 80 56" style="flex-shrink:0; margin-top:2px;"><rect x="18" y="6" width="44" height="44" rx="16" fill="#E7A93B"/><circle cx="32" cy="26" r="2.5" fill="#2B1B12"/><circle cx="48" cy="26" r="2.5" fill="#2B1B12"/><path d="M30 36 Q40 42 50 36" stroke="#2B1B12" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+                <div style="background:#FFFDF8; border:1px solid rgba(43,27,18,0.08); border-radius:4px 16px 16px 16px; padding:14px 16px; font-family:'Fredoka',sans-serif; font-weight:500; font-size:15px; color:#2B1B12; line-height:1.45;">{{trendCallout}}</div>
+              </div>
+              <div style="background:#FFFDF8; border:1px solid rgba(43,27,18,0.08); border-radius:22px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:rgba(43,27,18,0.45);">Protein-forward dinners, last 7 days</div>
+                <div style="display:flex; align-items:flex-end; gap:10px; height:110px;">
+                  <sc-for list="{{trendBars}}" as="b" hint-placeholder-count="7">
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end;">
+                      <div style="width:100%; border-radius:6px; height:{{b.h}}px; background:{{b.color}};"></div>
+                      <div style="font-size:10px; font-weight:600; color:rgba(43,27,18,0.45);">{{b.label}}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="flex:1;"></div>
+              <div onClick="{{goRoadmap}}" style="cursor:pointer; text-align:center; background:#2B1B12; color:#FFF8ED; font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px; padding:15px; border-radius:999px;">Continue</div>
+            </div>
+          </sc-if>
+
+          <!-- ================= 7. ROADMAP ================= -->
+          <sc-if value="{{isRoadmap}}" hint-placeholder-val="{{false}}">
+            <div style="padding:28px 0 28px; display:flex; flex-direction:column; gap:18px; min-height:100%;">
+              <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:19px; color:#2B1B12;">What's cooking next</div>
+              <div style="font-size:13px; color:rgba(43,27,18,0.6); line-height:1.5; margin-top:-8px;">A peek at what's coming to Eazychef.</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                <sc-for list="{{roadmapTiles}}" as="tile" hint-placeholder-count="4">
+                  <div style="background:rgba(43,27,18,0.04); border:1px dashed rgba(43,27,18,0.18); border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:8px; min-height:120px; position:relative;">
+                    <div style="position:absolute; top:12px; right:12px; background:rgba(43,27,18,0.1); color:rgba(43,27,18,0.55); font-size:9px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; padding:4px 8px; border-radius:999px;">Soon</div>
+                    <div style="width:34px; height:34px; border-radius:10px; background:{{tile.iconBg}}; opacity:0.55;"></div>
+                    <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; color:rgba(43,27,18,0.55);">{{tile.name}}</div>
+                    <div style="font-size:11.5px; color:rgba(43,27,18,0.4); line-height:1.4;">{{tile.blurb}}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="flex:1;"></div>
+              <div onClick="{{restart}}" style="cursor:pointer; text-align:center; background:rgba(43,27,18,0.06); color:#2B1B12; font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; padding:14px; border-radius:999px;">Back to start</div>
+            </div>
+          </sc-if>
+
+        </div>
+        </div>
+      </div>
+    </x-import>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;cardLayout&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;stack&quot;, &quot;options&quot;: [&quot;stack&quot;, &quot;deck&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Recipe cards&quot;}, &quot;cookName&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Radha&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Personalization&quot;}}">
+const DIET = ['Vegetarian','Eggetarian','Non-veg','Vegan'];
+const ALLERGY = ['Peanuts','Dairy','Gluten','Shellfish','None of these'];
+const GOAL = ['Lose a little weight','More protein','Eat cleaner overall','Manage sugar / BP'];
+const COOK_SKILL = ['Just starting out','Comfortable','Confident'];
+const WEEKDAY_T = ['15 min','30 min','45+ min'];
+const WEEKEND_T = ['30 min','60 min','90+ min'];
+
+const CARDS = [
+  {
+    id: 'chilla', name: 'Moong Dal Chilla', prep: '20 min',
+    reason: "Quick, protein-forward, and ready before anyone gets hangry. Good one for a weeknight.",
+    stripeBg: 'repeating-linear-gradient(45deg, #E7A93B, #E7A93B 10px, #f0c169 10px, #f0c169 20px)',
+    photoLabel: 'moong dal chilla',
+    missing: ['fresh coriander', 'ginger'],
+    steps: [
+      { n: 1, text: 'Soak moong dal for 2 hours, then blend with ginger, green chilli and a pinch of salt into a smooth batter.' },
+      { n: 2, text: 'Heat a tawa, pour a ladle of batter and spread thin like a dosa.' },
+      { n: 3, text: 'Drizzle oil at the edges, flip once golden, cook the other side.' },
+      { n: 4, text: 'Serve hot with mint chutney or plain curd.' },
+    ],
+  },
+  {
+    id: 'bhurji', name: 'Paneer Bhurji Wrap', prep: '25 min',
+    reason: "You said protein — this hides veggies in a paneer scramble that even fussy eaters clear off the plate.",
+    stripeBg: 'repeating-linear-gradient(45deg, #C1592F, #C1592F 10px, #d97748 10px, #d97748 20px)',
+    photoLabel: 'paneer bhurji wrap',
+    missing: [],
+    steps: [
+      { n: 1, text: 'Crumble paneer. Sauté onion, tomato and capsicum till soft.' },
+      { n: 2, text: 'Add turmeric, chilli powder and the crumbled paneer, toss for 3-4 minutes.' },
+      { n: 3, text: 'Warm the wraps, spoon in the bhurji, roll tight.' },
+      { n: 4, text: 'Slice in half, serve with a wedge of lemon.' },
+    ],
+  },
+  {
+    id: 'curd-rice', name: 'Curd Rice with Tempering', prep: '15 min',
+    reason: "Weeknight-tired energy detected. Five ingredients, almost zero effort, still feels like a proper meal.",
+    stripeBg: 'repeating-linear-gradient(45deg, #8FA05E, #8FA05E 10px, #a4b478 10px, #a4b478 20px)',
+    photoLabel: 'curd rice',
+    missing: ['curry leaves', 'mustard seeds'],
+    steps: [
+      { n: 1, text: 'Mash cooked rice with curd and a splash of milk till creamy.' },
+      { n: 2, text: 'Temper mustard seeds, curry leaves and a dry red chilli in hot ghee.' },
+      { n: 3, text: 'Pour the tempering over the curd rice, season with salt.' },
+      { n: 4, text: 'Chill 10 minutes before serving, if you can wait that long.' },
+    ],
+  },
+  {
+    id: 'khichdi', name: 'Masala Moong Khichdi', prep: '30 min',
+    reason: "One-pot, gentle on digestion, and stretches the pantry you've already got. Good one when nobody wants to think.",
+    stripeBg: 'repeating-linear-gradient(45deg, #E7A93B, #E7A93B 10px, #f0c169 10px, #f0c169 20px)',
+    photoLabel: 'masala moong khichdi',
+    missing: ['ghee'],
+    steps: [
+      { n: 1, text: 'Pressure cook rice and moong dal with turmeric till soft and mushy.' },
+      { n: 2, text: 'Temper cumin, hing and dry red chilli in ghee.' },
+      { n: 3, text: 'Stir the tempering into the khichdi, adjust consistency with hot water.' },
+      { n: 4, text: 'Serve with a spoon of ghee on top and a side of pickle.' },
+    ],
+  },
+  {
+    id: 'egg-bhurji', name: 'Egg Bhurji with Toast', prep: '15 min',
+    reason: "Fast, high-protein, and forgiving if it's a busy morning-into-evening kind of day.",
+    stripeBg: 'repeating-linear-gradient(45deg, #C1592F, #C1592F 10px, #d97748 10px, #d97748 20px)',
+    photoLabel: 'egg bhurji',
+    missing: ['bread'],
+    steps: [
+      { n: 1, text: 'Sauté onion, tomato, green chilli till soft.' },
+      { n: 2, text: 'Add beaten eggs, scramble on medium heat till just set.' },
+      { n: 3, text: 'Finish with chopped coriander and a squeeze of lemon.' },
+      { n: 4, text: 'Serve with buttered toast on the side.' },
+    ],
+  },
+  {
+    id: 'veg-pulao', name: 'One-Pot Veg Pulao', prep: '35 min',
+    reason: "Uses up whatever vegetables are looking tired in the fridge, and reheats well for tomorrow's lunch too.",
+    stripeBg: 'repeating-linear-gradient(45deg, #8FA05E, #8FA05E 10px, #a4b478 10px, #a4b478 20px)',
+    photoLabel: 'veg pulao',
+    missing: ['whole garam masala'],
+    steps: [
+      { n: 1, text: 'Sauté whole spices and onion in ghee till fragrant.' },
+      { n: 2, text: 'Add chopped vegetables and rice, toast for 2 minutes.' },
+      { n: 3, text: 'Add water, salt, pressure cook or simmer covered till done.' },
+      { n: 4, text: 'Fluff gently and serve with raita.' },
+    ],
+  },
+];
+
+class Component extends DCLogic {
+  state = {
+    screen: 'onboarding',
+    obStep: 0,
+    diet: '', allergies: [], customAllergies: [], allergyInput: '', dishes: [], dishInput: '',
+    goal: '', cookWho: '', cookSkill: '', weekdayTime: '', weekendTime: '',
+    pantryText: '', pantryItems: [],
+    selectedCard: null,
+    rating: 0, ratingNote: '',
+    cardIds: ['chilla', 'bhurji', 'curd-rice'], regenCount: 0,
+  };
+
+  setDiet(l) { this.setState({ diet: l }); setTimeout(this.nextStep, 250); }
+  toggleAllergy(l) {
+    this.setState(s => {
+      let arr;
+      if (l === 'None of these') {
+        arr = s.allergies.includes(l) ? [] : ['None of these'];
+      } else {
+        arr = s.allergies.filter(a => a !== 'None of these');
+        arr = arr.includes(l) ? arr.filter(a => a !== l) : [...arr, l];
+      }
+      return { allergies: arr };
+    });
+  }
+  onAllergyInput = (e) => this.setState({ allergyInput: e.target.value });
+  addCustomAllergy = () => {
+    const v = this.state.allergyInput.trim();
+    if (v && !this.state.customAllergies.includes(v)) {
+      this.setState(s => ({ customAllergies: [...s.customAllergies, v], allergyInput: '', allergies: s.allergies.filter(a => a !== 'None of these') }));
+    } else {
+      this.setState({ allergyInput: '' });
+    }
+  };
+  removeCustomAllergy(idx) { this.setState(s => ({ customAllergies: s.customAllergies.filter((_, i) => i !== idx) })); }
+  setGoal(l) { this.setState({ goal: l }); setTimeout(this.nextStep, 250); }
+  setCookWho(l) { this.setState({ cookWho: l }); }
+  setCookSkill(l) { this.setState({ cookSkill: l }); }
+  setWeekday(l) { this.setState({ weekdayTime: l }); }
+  setWeekend(l) { this.setState({ weekendTime: l }); }
+  onDishInput = (e) => this.setState({ dishInput: e.target.value });
+  addDish = () => {
+    const v = this.state.dishInput.trim();
+    if (v && this.state.dishes.length < 4) this.setState(s => ({ dishes: [...s.dishes, v], dishInput: '' }));
+  };
+  removeDish(idx) { this.setState(s => ({ dishes: s.dishes.filter((_, i) => i !== idx) })); }
+  nextStep = () => this.setState(s => ({ obStep: s.obStep + 1 }));
+  finishOnboarding = () => this.setState({ screen: 'pantry' });
+
+  onPantryInput = (e) => this.setState({ pantryText: e.target.value });
+  addPantryItem = () => {
+    const parts = this.state.pantryText.split(',').map(p => p.trim()).filter(Boolean);
+    if (parts.length) {
+      this.setState(s => {
+        const merged = [...s.pantryItems];
+        parts.forEach(p => { if (!merged.includes(p)) merged.push(p); });
+        return { pantryItems: merged, pantryText: '' };
+      });
+    } else {
+      this.setState({ pantryText: '' });
+    }
+  };
+  onPantryKeyDown = (e) => { if (e.key === 'Enter') { e.preventDefault(); this.addPantryItem(); } };
+  removePantryItem(idx) { this.setState(s => ({ pantryItems: s.pantryItems.filter((_, i) => i !== idx) })); }
+  addQuick(label) {
+    if (!this.state.pantryItems.includes(label)) this.setState(s => ({ pantryItems: [...s.pantryItems, label] }));
+  }
+  goCards = () => this.setState({ screen: 'cards' });
+  selectCard(card) { this.setState({ selectedCard: card, screen: 'missing' }); }
+  backToCards = () => this.setState({ screen: 'cards' });
+  goDetail = () => this.setState({ screen: 'detail' });
+  backToMissing = () => this.setState({ screen: 'missing' });
+  goRating = () => this.setState({ screen: 'rating' });
+  setRating(n) { this.setState({ rating: n }); }
+  onRatingNote = (e) => this.setState({ ratingNote: e.target.value });
+  submitRating = () => this.setState({ screen: 'trends' });
+  goRoadmap = () => this.setState({ screen: 'roadmap' });
+  restart = () => this.setState({ screen: 'onboarding', obStep: 0, selectedCard: null, rating: 0, ratingNote: '' });
+  jump(screen) { this.setState({ screen }); }
+
+  regenerate = () => {
+    const pool = CARDS;
+    const current = this.state.cardIds;
+    // simple deterministic-ish shuffle biased away from repeating the current set
+    const shuffled = [...pool].sort(() => Math.random() - 0.5);
+    let picks = shuffled.slice(0, 3).map(c => c.id);
+    if (picks.every(id => current.includes(id)) && pool.length > 3) {
+      picks = shuffled.slice(3, 6).map(c => c.id);
+      if (picks.length < 3) picks = shuffled.slice(0, 3).map(c => c.id);
+    }
+    this.setState(s => ({ cardIds: picks, regenCount: s.regenCount + 1 }));
+  };
+
+  chipStyle(selected) {
+    return selected
+      ? { bg: '#C1592F', color: '#FFF8ED', borderColor: '#C1592F' }
+      : { bg: '#FFFDF8', color: '#2B1B12', borderColor: 'rgba(43,27,18,0.14)' };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const cookName = this.props.cookName || 'Radha';
+
+    const dietOptions = DIET.map(l => ({ label: l, ...this.chipStyle(s.diet === l), onClick: () => this.setDiet(l) }));
+    const allergyOptions = ALLERGY.map(l => ({ label: l, ...this.chipStyle(s.allergies.includes(l)), onClick: () => this.toggleAllergy(l) }));
+    const goalOptions = GOAL.map(l => ({ label: l, ...this.chipStyle(s.goal === l), onClick: () => this.setGoal(l) }));
+    const cookWhoNames = ['Me', cookName, 'Private chef', 'Someone else'];
+    const cookWhoOptions = cookWhoNames.map(l => ({ label: l, ...this.chipStyle(s.cookWho === l), onClick: () => this.setCookWho(l) }));
+    const cookSkillOptions = COOK_SKILL.map(l => ({ label: l, ...this.chipStyle(s.cookSkill === l), onClick: () => this.setCookSkill(l) }));
+    const weekdayOptions = WEEKDAY_T.map(l => ({ label: l, ...this.chipStyle(s.weekdayTime === l), onClick: () => this.setWeekday(l) }));
+    const weekendOptions = WEEKEND_T.map(l => ({ label: l, ...this.chipStyle(s.weekendTime === l), onClick: () => this.setWeekend(l) }));
+    const dishChips = s.dishes.map((d, i) => ({ label: d, onRemove: () => this.removeDish(i) }));
+    const customAllergyChips = s.customAllergies.map((a, i) => ({ label: a, onRemove: () => this.removeCustomAllergy(i) }));
+    const allergySummaryText = [...s.allergies, ...s.customAllergies].join(', ');
+    const allergyReady = s.allergies.length > 0 || s.customAllergies.length > 0;
+
+    const obStep = s.obStep;
+    const progressDots = [0,1,2,3,4,5].map(i => ({ w: i === obStep ? 22 : 10, color: i <= obStep ? '#C1592F' : 'rgba(43,27,18,0.14)' }));
+
+    const cardLayout = this.props.cardLayout || 'stack';
+    const currentCards = s.cardIds.map(id => CARDS.find(c => c.id === id)).filter(Boolean);
+    const cards = currentCards.map((c, i) => ({
+      ...c,
+      onClick: () => this.selectCard(c),
+      offset: cardLayout === 'deck' ? i * -70 : 0,
+    }));
+    const introLines = [
+      "Here's what I'm thinking for tonight —",
+      "Okay, took another look — try these instead:",
+      "Fair enough, here's a different angle:",
+      "Round three. How about these:",
+    ];
+    const cardsIntro = introLines[Math.min(s.regenCount, introLines.length - 1)];
+
+    const selectedCard = s.selectedCard || CARDS[0];
+    const missingItems = (selectedCard.missing || []).map(m => ({ label: m }));
+
+    const pantryQuick = ['Onion', 'Garlic', 'Curd', 'Rice', 'Tomato'];
+    const pantryQuickAdds = pantryQuick.map(l => ({ label: l, onClick: () => this.addQuick(l) }));
+    const pantryChips = s.pantryItems.map((p, i) => ({ label: p, onRemove: () => this.removePantryItem(i) }));
+    const hasPantryItems = s.pantryItems.length > 0;
+
+    const ratingEmoji = ['😖','😕','🙂','😋','🤩'];
+    const ratingOptions = ratingEmoji.map((e, i) => {
+      const n = i + 1;
+      const sel = s.rating === n;
+      return {
+        emoji: e, n,
+        bg: sel ? 'rgba(193,89,47,0.14)' : '#FFFDF8',
+        border: sel ? '#C1592F' : 'rgba(43,27,18,0.1)',
+        onClick: () => this.setRating(n),
+      };
+    });
+
+    const trendDays = [
+      { label: 'Mon', h: 40, p: false }, { label: 'Tue', h: 78, p: true },
+      { label: 'Wed', h: 55, p: false }, { label: 'Thu', h: 90, p: true },
+      { label: 'Fri', h: 62, p: false }, { label: 'Sat', h: 85, p: true },
+      { label: 'Sun', h: 48, p: false },
+    ];
+    const trendBars = trendDays.map(d => ({ ...d, color: d.p ? '#C1592F' : 'rgba(43,27,18,0.12)' }));
+
+    const goalText = s.goal ? s.goal.toLowerCase() : 'eating better';
+    const trendCallout = `You said you wanted ${goalText} — and this week you've leaned toward high-protein dinners three nights running. Noticed.`;
+
+    const roadmapTiles = [
+      { name: 'Waste tracking', blurb: 'See what\u2019s about to expire before it does.', iconBg: '#8FA05E' },
+      { name: 'Smart pantry', blurb: 'Auto-updates as you cook and shop.', iconBg: '#E7A93B' },
+      { name: 'Kitchen buddies', blurb: 'Plan meals with family or roommates.', iconBg: '#C1592F' },
+      { name: 'Streaks & points', blurb: 'Little rewards for cooking at home.', iconBg: '#2B1B12' },
+    ];
+
+    const screen = s.screen;
+    const NAV = [
+      { key: 'onboarding', label: 'Onboarding' },
+      { key: 'pantry', label: 'Pantry' },
+      { key: 'cards', label: 'Recipes' },
+      { key: 'missing', label: 'Missing' },
+      { key: 'detail', label: 'Cook' },
+      { key: 'rating', label: 'Rating' },
+      { key: 'trends', label: 'Trends' },
+      { key: 'roadmap', label: 'Roadmap' },
+    ];
+    const navSteps = NAV.map((n, i) => ({
+      n: i + 1, label: n.label,
+      color: screen === n.key ? '#C1592F' : 'rgba(43,27,18,0.55)',
+      underline: screen === n.key ? '#C1592F' : 'transparent',
+      onClick: () => this.jump(n.key),
+    }));
+
+    return {
+      isOnboarding: screen === 'onboarding', isPantry: screen === 'pantry', isCards: screen === 'cards',
+      isMissing: screen === 'missing', isDetail: screen === 'detail', isRating: screen === 'rating',
+      isTrends: screen === 'trends', isRoadmap: screen === 'roadmap',
+
+      progressDots,
+      step0Visible: true, step0Answered: obStep > 0, step0Active: obStep === 0, step0Summary: s.diet, dietOptions,
+      step1Visible: obStep >= 1, step1Answered: obStep > 1, step1Active: obStep === 1, step1Summary: allergySummaryText, step1Ready: allergyReady, allergyOptions,
+      allergyInput: s.allergyInput, onAllergyInput: this.onAllergyInput, addCustomAllergy: this.addCustomAllergy, customAllergyChips,
+      step2Visible: obStep >= 2, step2Answered: obStep > 2, step2Active: obStep === 2, step2Summary: s.dishes.join(', '), step2Ready: s.dishes.length > 0, dishChips,
+      step3Visible: obStep >= 3, step3Answered: obStep > 3, step3Active: obStep === 3, step3Summary: s.goal, goalOptions,
+      step4Visible: obStep >= 4, step4Answered: obStep > 4, step4Active: obStep === 4, step4Summary: `${s.cookWho} · ${s.cookSkill}`, step4Ready: !!s.cookWho && !!s.cookSkill, cookWhoOptions, cookSkillOptions,
+      step5Visible: obStep >= 5, step5Ready: !!s.weekdayTime && !!s.weekendTime, weekdayOptions, weekendOptions,
+      nextStep: this.nextStep, finishOnboarding: this.finishOnboarding,
+
+      dishInput: s.dishInput, onDishInput: this.onDishInput, addDish: this.addDish,
+
+      pantryText: s.pantryText, onPantryInput: this.onPantryInput, onPantryKeyDown: this.onPantryKeyDown, addPantryItem: this.addPantryItem, pantryQuickAdds, pantryChips, hasPantryItems, goCards: this.goCards,
+
+      cards, cardGap: cardLayout === 'deck' ? 0 : 16, cardStackOffset: cardLayout === 'deck' ? 70 : 0, cardsIntro, regenerate: this.regenerate,
+
+      selectedCard, hasMissing: missingItems.length > 0, noMissing: missingItems.length === 0, missingItems,
+      backToCards: this.backToCards, goDetail: this.goDetail, backToMissing: this.backToMissing,
+
+      cookNameDisplay: s.cookWho || cookName, cookSkillDisplay: s.cookSkill || 'Comfortable cook',
+      goRating: this.goRating,
+
+      ratingOptions, ratingNote: s.ratingNote, onRatingNote: this.onRatingNote, submitRating: this.submitRating,
+
+      trendCallout, trendBars, goRoadmap: this.goRoadmap,
+
+      roadmapTiles, restart: this.restart,
+
+      navSteps,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
