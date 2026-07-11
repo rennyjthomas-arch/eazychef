@@ -2,6 +2,32 @@ import Anthropic from '@anthropic-ai/sdk';
 
 const client = new Anthropic();
 
+interface RecipeImage {
+  url: string;
+  photographerName: string;
+  photographerUrl: string;
+}
+
+async function fetchUnsplashImage(query: string, accessKey: string): Promise<RecipeImage | null> {
+  try {
+    const res = await fetch(
+      `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`,
+      { headers: { Authorization: `Client-ID ${accessKey}` } },
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    const photo = data?.results?.[0];
+    if (!photo) return null;
+    return {
+      url: photo.urls?.small,
+      photographerName: photo.user?.name ?? 'Unknown',
+      photographerUrl: photo.user?.links?.html ?? 'https://unsplash.com',
+    };
+  } catch {
+    return null;
+  }
+}
+
 const RECIPE_SCHEMA = {
   type: 'object',
   properties: {
@@ -109,9 +135,19 @@ export default async (req: Request) => {
       return new Response(JSON.stringify({ error: 'No content returned' }), { status: 502 });
     }
 
-    const parsed = JSON.parse(textBlock.text);
+    const parsed: { recipes: Array<Record<string, unknown>> } = JSON.parse(textBlock.text);
 
-    return new Response(JSON.stringify(parsed), {
+    const unsplashKey = process.env.UNSPLASH_ACCESS_KEY;
+    const recipes = unsplashKey
+      ? await Promise.all(
+          parsed.recipes.map(async (r) => ({
+            ...r,
+            image: await fetchUnsplashImage(String(r.name), unsplashKey),
+          })),
+        )
+      : parsed.recipes.map((r) => ({ ...r, image: null }));
+
+    return new Response(JSON.stringify({ recipes }), {
       status: 200,
       headers: { 'content-type': 'application/json' },
     });

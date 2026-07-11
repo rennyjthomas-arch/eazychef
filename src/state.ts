@@ -18,6 +18,7 @@ function toDisplayRecipe(ai: AIRecipe, index: number, pantryItems: string[]): Re
     reason: ai.reason,
     stripeBg: STRIPE_PALETTE[index % STRIPE_PALETTE.length],
     photoLabel: ai.name.toLowerCase(),
+    image: ai.image ?? null,
     missing: ai.ingredients.filter((ing) => !ingredientMatchesPantry(ing, pantryItems)),
     steps: ai.steps.map((text, i) => ({ n: i + 1, text })),
   };

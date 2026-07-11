@@ -3,6 +3,12 @@ export interface RecipeStep {
   text: string;
 }
 
+export interface RecipeImage {
+  url: string;
+  photographerName: string;
+  photographerUrl: string;
+}
+
 export interface Recipe {
   id: string;
   name: string;
@@ -10,6 +16,7 @@ export interface Recipe {
   reason: string;
   stripeBg: string;
   photoLabel: string;
+  image: RecipeImage | null;
   missing: string[];
   steps: RecipeStep[];
 }
@@ -22,6 +29,7 @@ export interface AIRecipe {
   reason: string;
   ingredients: string[];
   steps: string[];
+  image?: RecipeImage | null;
 }
 
 export const STRIPE_PALETTE = [
@@ -37,6 +45,7 @@ export const FALLBACK_RECIPE: Recipe = {
   reason: 'Head to the Recipes tab and pick something to cook.',
   stripeBg: STRIPE_PALETTE[0],
   photoLabel: 'no recipe selected',
+  image: null,
   missing: [],
   steps: [{ n: 1, text: 'Go to the Recipes tab to get a suggestion first.' }],
 };

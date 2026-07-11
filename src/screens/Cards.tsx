@@ -96,25 +96,55 @@ export function Cards({ state, actions }: CardsProps) {
             <div
               style={{
                 height: 130,
-                background: card.stripeBg,
+                background: card.image ? undefined : card.stripeBg,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'relative',
+                overflow: 'hidden',
               }}
             >
-              <span
-                style={{
-                  fontFamily: 'monospace',
-                  fontSize: 11,
-                  color: inkAlpha(0.5),
-                  background: 'rgba(255,253,248,0.75)',
-                  padding: '4px 10px',
-                  borderRadius: 6,
-                }}
-              >
-                photo: {card.photoLabel}
-              </span>
+              {card.image ? (
+                <>
+                  <img
+                    src={card.image.url}
+                    alt={card.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <a
+                    href={`${card.image.photographerUrl}?utm_source=eazychef&utm_medium=referral`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      position: 'absolute',
+                      bottom: 6,
+                      right: 8,
+                      fontSize: 9.5,
+                      color: 'rgba(255,255,255,0.9)',
+                      background: 'rgba(0,0,0,0.4)',
+                      padding: '3px 7px',
+                      borderRadius: 999,
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {card.image.photographerName} / Unsplash
+                  </a>
+                </>
+              ) : (
+                <span
+                  style={{
+                    fontFamily: 'monospace',
+                    fontSize: 11,
+                    color: inkAlpha(0.5),
+                    background: 'rgba(255,253,248,0.75)',
+                    padding: '4px 10px',
+                    borderRadius: 6,
+                  }}
+                >
+                  photo: {card.photoLabel}
+                </span>
+              )}
             </div>
             <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', gap: 8 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>

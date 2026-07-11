@@ -21,7 +21,44 @@ export function Detail({ state, selectedCard, actions }: DetailProps) {
       >
         ← Back
       </div>
-      <div style={{ height: 150, borderRadius: 20, background: selectedCard.stripeBg, marginBottom: 16 }} />
+      <div
+        style={{
+          height: 150,
+          borderRadius: 20,
+          background: selectedCard.image ? undefined : selectedCard.stripeBg,
+          marginBottom: 16,
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {selectedCard.image && (
+          <>
+            <img
+              src={selectedCard.image.url}
+              alt={selectedCard.name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+            <a
+              href={`${selectedCard.image.photographerUrl}?utm_source=eazychef&utm_medium=referral`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                position: 'absolute',
+                bottom: 8,
+                right: 10,
+                fontSize: 10,
+                color: 'rgba(255,255,255,0.9)',
+                background: 'rgba(0,0,0,0.4)',
+                padding: '3px 8px',
+                borderRadius: 999,
+                textDecoration: 'none',
+              }}
+            >
+              {selectedCard.image.photographerName} / Unsplash
+            </a>
+          </>
+        )}
+      </div>
       <div style={{ padding: '0 0 100px', display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 24, color: colors.ink }}>{selectedCard.name}</div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>

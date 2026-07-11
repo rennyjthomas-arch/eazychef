@@ -16,7 +16,24 @@ export function Missing({ selectedCard, actions }: MissingProps) {
         ← Back
       </div>
       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-        <div style={{ width: 56, height: 56, borderRadius: 16, background: selectedCard.stripeBg, flexShrink: 0 }} />
+        <div
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: 16,
+            background: selectedCard.image ? undefined : selectedCard.stripeBg,
+            overflow: 'hidden',
+            flexShrink: 0,
+          }}
+        >
+          {selectedCard.image && (
+            <img
+              src={selectedCard.image.url}
+              alt={selectedCard.name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          )}
+        </div>
         <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 18, color: colors.ink }}>{selectedCard.name}</div>
       </div>
 
