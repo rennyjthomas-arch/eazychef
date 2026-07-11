@@ -64,6 +64,23 @@ export const GOAL = [
   'Eat cleaner overall',
   'Manage sugar / BP',
 ] as const;
+export interface GoalTrendCopy {
+  chartLabel: string;
+  calloutPhrase: string;
+}
+
+export const GOAL_TREND_COPY: Record<string, GoalTrendCopy> = {
+  'More protein': { chartLabel: 'Protein-forward dinners', calloutPhrase: 'leaned toward high-protein dinners' },
+  'Lose a little weight': { chartLabel: 'Lighter dinners', calloutPhrase: 'leaned toward lighter, lower-calorie dinners' },
+  'Eat cleaner overall': { chartLabel: 'Whole-food dinners', calloutPhrase: 'leaned toward cleaner, whole-food dinners' },
+  'Manage sugar / BP': { chartLabel: 'Lower-sugar dinners', calloutPhrase: 'leaned toward lower-sugar, lower-sodium dinners' },
+};
+
+export const DEFAULT_TREND_COPY: GoalTrendCopy = {
+  chartLabel: 'Balanced dinners',
+  calloutPhrase: 'leaned toward more balanced dinners',
+};
+
 export const COOK_SKILL = ['Just starting out', 'Comfortable', 'Confident'] as const;
 export const WEEKDAY_T = ['15 min', '30 min', '45+ min'] as const;
 export const WEEKEND_T = ['30 min', '60 min', '90+ min'] as const;

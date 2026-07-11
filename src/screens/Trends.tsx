@@ -1,4 +1,4 @@
-import { TREND_DAYS } from '../data';
+import { DEFAULT_TREND_COPY, GOAL_TREND_COPY, TREND_DAYS } from '../data';
 import type { EazychefActions } from '../state';
 import type { AppState } from '../types';
 import { Logo } from '../components/Logo';
@@ -11,7 +11,8 @@ interface TrendsProps {
 
 export function Trends({ state, actions }: TrendsProps) {
   const goalText = state.goal ? state.goal.toLowerCase() : 'eating better';
-  const trendCallout = `You said you wanted ${goalText} — and this week you've leaned toward high-protein dinners three nights running. Noticed.`;
+  const trendCopy = GOAL_TREND_COPY[state.goal] ?? DEFAULT_TREND_COPY;
+  const trendCallout = `You said you wanted ${goalText} — and this week you've ${trendCopy.calloutPhrase} three nights running. Noticed.`;
 
   return (
     <div style={{ padding: '28px 0 24px', display: 'flex', flexDirection: 'column', gap: 20, minHeight: '100%' }}>
@@ -48,7 +49,7 @@ export function Trends({ state, actions }: TrendsProps) {
         }}
       >
         <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: inkAlpha(0.45) }}>
-          Protein-forward dinners, last 7 days
+          {trendCopy.chartLabel}, last 7 days
         </div>
         <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, height: 110 }}>
           {TREND_DAYS.map((d) => (
